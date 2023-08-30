@@ -8,9 +8,10 @@ import { v4 as uuidv4 } from "uuid";
 
 import env from "@config/environment";
 import { registerRoutes } from "./routes";
+import logger, { envToLogger } from "@common/utils/logger";
 
 const server = fastify({
-  logger: true,
+  logger: envToLogger,
   genReqId: (req) => {
     const requestIdHeader = req.headers["x-request-id"];
     if (requestIdHeader && Array.isArray(requestIdHeader)) {
@@ -39,8 +40,8 @@ registerRoutes(server);
 
 server.listen({ port: env.PORT, host: "0.0.0.0" }, (err, address) => {
   if (err) {
-    console.error(err);
+    logger.error(err, "Server exception!");
     process.exit(1);
   }
-  console.log(`Server listening at ${address}`);
+  logger.info(`Server started!`);
 });

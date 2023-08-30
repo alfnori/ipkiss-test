@@ -7,6 +7,7 @@ import {
 
 import resetRoutes from "@modules/reset/routes";
 import { errorResponse } from "common/utils/response";
+import logger from "@common/utils/logger";
 
 export const registerRoutes = (server: FastifyInstance): void => {
   server.register(resetRoutes);
@@ -24,7 +25,7 @@ export const registerRoutes = (server: FastifyInstance): void => {
         details = err.validation.map((e) => e.message).join("\\n");
       }
       const error = errorResponse(statusCode, message, details);
-      console.error("Exception", err, error);
+      logger.error({ err, error }, "Exception raised!");
       return reply.code(statusCode).send(error);
     },
   );

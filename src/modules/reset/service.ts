@@ -1,4 +1,5 @@
 import ITruthStoreProvider from "@common/interfaces/truthStore";
+import logger from "@common/utils/logger";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -15,7 +16,7 @@ class ResetService {
   public async reset(): Promise<void> {
     //memory wiped
     await this.truthStoreProvider.wipe();
-    console.log("memory wiped!");
+    logger.info(this, "memory wiped!");
   }
 }
 

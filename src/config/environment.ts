@@ -1,7 +1,9 @@
 import dotenv from "dotenv";
 
-const isTest = process.env.NODE_ENV == "test";
-const envFile = isTest ? ".env.test" : ".env";
+export const nodeEnv = process.env.NODE_ENV || 'development';
+export const isTestEnv = nodeEnv == "test";
+
+const envFile = isTestEnv ? ".env.test" : ".env";
 
 dotenv.config({ path: `../${envFile}` });
 const { env } = process;
