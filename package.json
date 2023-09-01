@@ -5,7 +5,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test tap --node-arg=--require=tsconfig-paths/register --ts src/__tests__/*",
+    "test:coverage": "NODE_ENV=test tap --node-arg=--require=tsconfig-paths/register --ts --coverage-report=html --no-browser src/__tests__/*",
     "build": "tsc && tsc-alias",
     "start": "node dist/server/index.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server/index.ts",
@@ -42,6 +43,7 @@
     "@tsconfig/node18": "^18.2.1",
     "@tsconfig/recommended": "^1.0.2",
     "@types/node": "^20.5.7",
+    "@types/tap": "^15.0.8",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
