@@ -18,7 +18,7 @@ const loggerConfig = {
 
 export const envToLogger = loggerConfig[nodeEnv] ?? true;
 
-const envs = isTestEnv ? { level: 'silent' } : { ...envToLogger, sync: true }
+const envs = isTestEnv ? { level: "silent" } : { ...envToLogger, sync: true };
 const logger = pino(envs);
 
 export default logger;

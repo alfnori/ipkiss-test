@@ -1,11 +1,11 @@
 import { assert } from "chai";
 import supertest from "supertest";
 
+import { FastifyInstance } from "fastify";
 import buildServer from "../../server/fastify";
 
-let fastify;
-
-describe("Integration tests for module Reset", ( )=> {
+describe("Integration tests for module Reset", () => {
+  let fastify: FastifyInstance;
   beforeEach(async () => {
     fastify = buildServer();
     await fastify.ready();

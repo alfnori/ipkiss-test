@@ -1,6 +1,4 @@
-import {
-  FastifyInstance,
-} from "fastify";
+import { FastifyInstance } from "fastify";
 
 import resetRoutes from "@modules/reset/routes";
 import balanceRoutes from "@modules/balance/routes";

@@ -13,6 +13,10 @@ export default (
   _opts: RouteShorthandOptions,
   done: HookHandlerDoneFunction,
 ): void => {
-  server.get("/balance", { schema: accountIdSchema }, balanceController.account);
+  server.get(
+    "/balance",
+    { schema: accountIdSchema },
+    balanceController.account,
+  );
   done();
 };
