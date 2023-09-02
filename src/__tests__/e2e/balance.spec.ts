@@ -24,7 +24,7 @@ describe("Integration tests for module Balance", async () => {
 
   beforeEach(async () => {
     sandbox = sinon.createSandbox();
-    truthStoreStub = sinon.stub(TruthStoreProvider.prototype, "retrive");
+    truthStoreStub = sinon.stub(TruthStoreProvider.prototype, "retrieve");
     fastify = buildServer();
     await fastify.ready();
   });

@@ -14,7 +14,7 @@ class BalanceService {
   }
 
   public async getAccount(accountId: string): Promise<Account> {
-    return await this.truthStoreProvider.retrive(accountId);
+    return await this.truthStoreProvider.retrieve(accountId);
   }
 }
 
