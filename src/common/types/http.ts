@@ -5,7 +5,7 @@ export type HttpResponse = {
 
 export type HttpSuccessResponse = HttpResponse & {
   message?: string;
-  data: unknown;
+  data?: unknown;
 };
 
 export type HttpErrorResponse = HttpResponse & {

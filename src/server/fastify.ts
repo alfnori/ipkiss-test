@@ -10,6 +10,14 @@ import { envToLogger } from "@common/utils/logger";
 import registerRoutes from "./routes";
 import setupErrorHandler from "./error-handler";
 
+const genReqId = (request): string => {
+  const requestIdHeader = request.headers["x-request-id"];
+  if (typeof requestIdHeader === "string") {
+    return requestIdHeader;
+  }
+  return uuidv4();
+};
+
 const configureServer = (server: FastifyInstance) => {
   server.register(helmet);
   server.register(compress);
@@ -25,18 +33,17 @@ const configureServer = (server: FastifyInstance) => {
       done(null, data);
     });
   });
+
+  server.addHook("onSend", (request, response, _payload, done) => {
+    response.header("x-request-id", genReqId(request));
+    done();
+  });
 };
 
 const buildServer = () => {
   const server = fastify({
     logger: envToLogger,
-    genReqId: (req) => {
-      const requestIdHeader = req.headers["x-request-id"];
-      if (requestIdHeader && Array.isArray(requestIdHeader)) {
-        return requestIdHeader[0];
-      }
-      return requestIdHeader || uuidv4();
-    },
+    genReqId,
   });
   configureServer(server);
   registerRoutes(server);
