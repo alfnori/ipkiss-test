@@ -2,8 +2,8 @@ import { HttpErrorResponse, HttpSuccessResponse } from "common/types/http";
 
 export const successResponse = (
   statusCode: number,
-  data: unknown,
   message?: string,
+  data?: unknown,
 ): HttpSuccessResponse => {
   const success: HttpSuccessResponse = {
     statusCode,
