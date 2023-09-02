@@ -1,6 +1,6 @@
 import pino from "pino";
 
-import { nodeEnv } from "@config/environment";
+import { isTestEnv, nodeEnv } from "@config/environment";
 
 const loggerConfig = {
   development: {
@@ -18,6 +18,7 @@ const loggerConfig = {
 
 export const envToLogger = loggerConfig[nodeEnv] ?? true;
 
-const logger = pino({ ...envToLogger, sync: true });
+const envs = isTestEnv ? { level: 'silent' } : { ...envToLogger, sync: true }
+const logger = pino(envs);
 
 export default logger;
