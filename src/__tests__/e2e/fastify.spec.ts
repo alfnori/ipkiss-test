@@ -9,25 +9,28 @@ import TruthStoreProvider from "@common/providers/TruthStoreProvider";
 import ResetController from "@modules/reset/controller";
 import { HttpSuccessResponse } from "@common/types/http";
 
+import * as loggers from "@common/utils/logger";
+import loadEnvironment, { nodeEnv } from "@config/environment";
+
 describe("Integration tests for Fastify", () => {
-    let fastify: FastifyInstance;
-    let sandbox: sinon.SinonSandbox;
-    let truthStoreStub: sinon.SinonStub;
-    let controllerSpy: sinon.SinonSpy;
-  
-    beforeEach(async () => {
-      sandbox = sinon.createSandbox();
-      truthStoreStub = sinon.stub(TruthStoreProvider.prototype, "wipe");
-      controllerSpy = sinon.spy(ResetController.prototype, "reset")
-      fastify = buildServer();
-      await fastify.ready();
-    });
-    afterEach(() => {
-      truthStoreStub.restore();
-      controllerSpy.restore();
-      sandbox.restore();
-      fastify.close();
-    });
+  let fastify: FastifyInstance;
+  let sandbox: sinon.SinonSandbox;
+  let truthStoreStub: sinon.SinonStub;
+  let controllerSpy: sinon.SinonSpy;
+
+  beforeEach(async () => {
+    sandbox = sinon.createSandbox();
+    truthStoreStub = sinon.stub(TruthStoreProvider.prototype, "wipe");
+    controllerSpy = sinon.spy(ResetController.prototype, "reset");
+    fastify = buildServer();
+    await fastify.ready();
+  });
+  afterEach(() => {
+    truthStoreStub.restore();
+    controllerSpy.restore();
+    sandbox.restore();
+    fastify.close();
+  });
 
   it("should return a error if a exception was not caugth!", async () => {
     truthStoreStub.throws(new Error("Uncaugth Error!"));
@@ -49,8 +52,8 @@ describe("Integration tests for Fastify", () => {
     assert.equal(response.headers["x-request-id"], customRequestId);
   });
 
-  it("should recover a POST body properly if present!",async () => {
-    const payload = { data: 123 }
+  it("should recover a POST body properly if present!", async () => {
+    const payload = { data: 123 };
     const response = await supertest(fastify.server)
       .post("/reset")
       .send(payload)
@@ -58,17 +61,65 @@ describe("Integration tests for Fastify", () => {
     const params = controllerSpy.getCall(0).args;
     const request = params[0] || {};
     assert.equal(response.statusCode, 200);
-    assert.equal(request.body, JSON.stringify(payload))
-  })
+    assert.equal(request.body, JSON.stringify(payload));
+  });
 
-  it("should return a body properly if sent!",async () => {
-    const payload: HttpSuccessResponse = { statusCode: 200, success: true, message: 'OK' }
-    const response = await supertest(fastify.server)
-      .get("/")
-      .send(payload)
-      .expect(200);
+  it("should return a body properly if sent!", async () => {
+    const payload: HttpSuccessResponse = {
+      statusCode: 200,
+      success: true,
+      message: "OK",
+    };
+    const response = await supertest(fastify.server).get("/").expect(200);
     assert.equal(response.statusCode, 200);
-    assert.equal(response.text, JSON.stringify(payload))
-  })
+    assert.equal(response.text, JSON.stringify(payload));
+  });
 
+  it("should return respect environment configurations", async () => {
+    const { NODE_ENV } = process.env;
+    let loggerSpy, response, env, config;
+
+    process.env.NODE_ENV = "homologation";
+    loggerSpy = sinon.spy(loggers, "loggerConfigByEnv");
+
+    fastify = buildServer();
+    await fastify.ready();
+
+    response = await supertest(fastify.server).get("/").expect(200);
+    assert.equal(response.statusCode, 200);
+    assert.equal(
+      JSON.stringify(loggerSpy.getCall(0).returnValue),
+      '{"level":"debug"}',
+    );
+
+    process.env.NODE_ENV = "HML";
+    loggerSpy.restore();
+    loggerSpy = sinon.spy(loggers, "loggerConfigByEnv");
+
+    fastify = buildServer();
+    await fastify.ready();
+
+    response = await supertest(fastify.server).get("/").expect(200);
+    assert.equal(response.statusCode, 200);
+    assert.equal(JSON.stringify(loggerSpy.getCall(0).returnValue), "true");
+
+    process.env.NODE_ENV = "";
+    process.env.PORT = "1234";
+
+    env = nodeEnv();
+    config = loadEnvironment();
+    assert.equal(env, "development");
+    assert.equal(config.PORT, 1234);
+
+    process.env.NODE_ENV = "test";
+    process.env.PORT = "";
+
+    env = nodeEnv();
+    config = loadEnvironment();
+    assert.equal(env, "test");
+    assert.equal(config.PORT, 3000);
+
+    loggerSpy.restore();
+    process.env.NODE_ENV = NODE_ENV;
+  });
 });

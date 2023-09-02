@@ -1,15 +1,16 @@
 import dotenv from "dotenv";
 
-export const nodeEnv = process.env.NODE_ENV || "development";
-export const isTestEnv = nodeEnv == "test";
+export const nodeEnv = () => process.env.NODE_ENV || "development";
 
-const envFile = isTestEnv ? ".env.test" : ".env";
+const loadEnvironment = () => {
+  const envFile = process.env.NODE_ENV === "test" ? ".env.test" : ".env";
 
-dotenv.config({ path: `../${envFile}` });
-const { env } = process;
+  dotenv.config({ path: `../${envFile}` });
+  const { env } = process;
 
-const environment = {
-  PORT: Number(env.PORT) || 3000,
+  return {
+    PORT: Number(env.PORT) || 3000,
+  };
 };
 
-export default environment;
+export default loadEnvironment;

@@ -6,7 +6,7 @@ import helmet from "@fastify/helmet";
 import compress from "@fastify/compress";
 
 import { v4 as uuidv4 } from "uuid";
-import { envToLogger } from "@common/utils/logger";
+import { loggerConfigByEnv } from "@common/utils/logger";
 import registerRoutes from "./routes";
 import setupErrorHandler from "./error-handler";
 
@@ -42,7 +42,7 @@ const configureServer = (server: FastifyInstance) => {
 
 const buildServer = () => {
   const server = fastify({
-    logger: envToLogger,
+    logger: loggerConfigByEnv(),
     genReqId,
   });
   configureServer(server);

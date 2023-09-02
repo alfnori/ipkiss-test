@@ -1,24 +1,26 @@
 import pino from "pino";
 
-import { isTestEnv, nodeEnv } from "@config/environment";
+import { nodeEnv } from "@config/environment";
 
-const loggerConfig = {
-  development: {
-    transport: {
-      target: "pino-pretty",
-      options: {
-        translateTime: "HH:MM:ss Z",
-        ignore: "pid,hostname",
+export const loggerConfigByEnv = () => {
+  const loggerConfig = {
+    development: {
+      transport: {
+        target: "pino-pretty",
+        options: {
+          translateTime: "HH:MM:ss Z",
+          ignore: "pid,hostname",
+        },
       },
     },
-  },
-  production: true,
-  test: false,
+    test: { level: "silent" },
+    homologation: { level: "debug" },
+    production: true,
+  };
+  return loggerConfig[nodeEnv()] ?? true;
 };
 
-export const envToLogger = loggerConfig[nodeEnv] ?? true;
-
-const envs = isTestEnv ? { level: "silent" } : { ...envToLogger, sync: true };
+const envs = loggerConfigByEnv();
 const logger = pino(envs);
 
 export default logger;
