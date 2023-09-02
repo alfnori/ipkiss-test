@@ -33,6 +33,13 @@ describe("Integration tests for module Balance", async () => {
     fastify.close()
   });
 
+
+  it("should return a error when account is not provide on a GET /balance endpoint", async () => {
+    const response = await supertest(fastify.server).get(`/balance?account_id=`).expect(400);
+    assert.equal(response.statusCode, 400);
+    assert.include(response.text, `statusCode":400,"success":false,"message":"querystring`);
+  });
+
   it("should return a empty value when account is not found on a GET /balance endpoint", async () => {
     truthStoreStub
       .withArgs(noAccountId)
