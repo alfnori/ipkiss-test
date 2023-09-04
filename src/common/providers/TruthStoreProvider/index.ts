@@ -1,18 +1,19 @@
 import { raiseAppError } from '@common/errors/raise';
 import { AppErrorType } from '@common/errors/types';
-import ITruthStoreProvider from '@common/interfaces/truthStore';
+import ITruthStoreProvider, { TruthStore } from '@common/interfaces/truthStore';
 import { Account, EventType, Operation } from '@common/types/account';
 import { OperationDTO, IntervalDTO, AccountDTO, DepositDTO, WithdrawDTO, TransferDTO } from '@common/types/dto';
 
-export type TruthStore = Record<string, Account>;
-
 export default class TruthStoreProvider implements ITruthStoreProvider {
   private store: TruthStore = {};
-  Event;
-
+  
   wipe(): Promise<void> {
     this.store = {};
     return Promise.resolve();
+  }
+
+  list(): Promise<TruthStore> {
+    return Promise.resolve(this.store)
   }
 
   retrieve(accountNumber: string): Promise<Account | null> {
@@ -32,26 +33,6 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
     };
 
     return this.putAccount(account);
-  }
-
-  async events(account: AccountDTO, interval?: IntervalDTO): Promise<Operation[]> {
-    const { accountNumber } = account;
-    const eventAccount = await this.retrieve(accountNumber);
-
-    if (!eventAccount || !eventAccount.events) {
-      return Promise.resolve([]);
-    }
-
-    const { events } = eventAccount;
-    if (!interval || (!interval.startDate && !interval.endDate)) {
-      return Promise.resolve(events);
-    }
-
-    const { startDate, endDate } = interval;
-    startDate.setHours(0, 0, 0, 0);
-    endDate.setHours(23, 59, 59, 999);
-
-    return events.filter((e) => e.date <= startDate && e.date >= endDate);
   }
 
   async deposit(payload: DepositDTO, trackerId: string): Promise<Operation> {
