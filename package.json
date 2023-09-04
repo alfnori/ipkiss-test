@@ -6,13 +6,18 @@
   "types": "index.d.ts",
   "scripts": {
     "mocha": "mocha --check-leaks -r tsconfig-paths/register -r ts-node/register",
+    "test:unit": "NODE_ENV=test nyc --reporter=text-summary mocha --check-leaks -r tsconfig-paths/register -r ts-node/register \"src/__tests__/unit/**/*.spec.ts\"",
+    "test:e2e": "NODE_ENV=test nyc --reporter=text-summary mocha --check-leaks -r tsconfig-paths/register -r ts-node/register \"src/__tests__/e2e/**/*.spec.ts\"",
     "test": "NODE_ENV=test nyc --reporter=text-summary mocha --check-leaks -r tsconfig-paths/register -r ts-node/register \"src/__tests__/**/*.spec.ts\"",
     "test:coverage": "NODE_ENV=test nyc --reporter=html mocha --check-coverage=true --check-leaks -r tsconfig-paths/register -r ts-node/register \"src/__tests__/**/*.spec.ts\"",
     "build": "tsc && tsc-alias",
     "start": "node dist/server/index.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server/index.ts",
     "lint": "eslint . --ext .ts && prettier --check \"./src/**/*.ts\"",
-    "lint:fix": "eslint . --ext .ts --fix && prettier --write \"./src/**/*.ts\""
+    "lint:fix": "eslint . --ext .ts --fix && prettier --write \"./src/**/*.ts\"",
+    "prettier": "npx prettier . --fix",
+    "prettier:check": "npx prettier . --check",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
@@ -22,9 +27,7 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint . --ext .ts --fix"
-    ]
+    "**/*": "prettier --write --ignore-unknown"
   },
   "nyc": {
     "branches": ">80",

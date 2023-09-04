@@ -1,12 +1,21 @@
+export enum EventType {
+  OPEN = 'OPEN',
+  WITHDRAW = 'withdraw',
+  TRANSFER = 'transfer',
+  DEPOSIT = 'deposit',
+}
+
 export type Account = {
-  identifier: string;
-  amount: number;
+  accountNumber: string;
+  balance: number;
   events: Operation[];
 };
 
 export type Operation = {
-  type: string;
-  originIdentifier: string;
-  destinyIdentifier: string;
+  trackerId: string;
+  type: EventType;
+  origin?: string;
+  destination?: string;
   amount: number;
+  date: Date;
 };
