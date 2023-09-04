@@ -6,14 +6,14 @@ import { OperationDTO, IntervalDTO, AccountDTO, DepositDTO, WithdrawDTO, Transfe
 
 export default class TruthStoreProvider implements ITruthStoreProvider {
   private store: TruthStore = {};
-  
+
   wipe(): Promise<void> {
     this.store = {};
     return Promise.resolve();
   }
 
   list(): Promise<TruthStore> {
-    return Promise.resolve(this.store)
+    return Promise.resolve(this.store);
   }
 
   retrieve(accountNumber: string): Promise<Account | null> {

@@ -28,7 +28,7 @@ describe('Integration tests for module Balance', async () => {
     fastify = buildServer();
     await fastify.ready();
   });
-  afterEach(() => {
+  afterEach(async () => {
     truthStoreStub.restore();
     sandbox.restore();
     fastify.close();
