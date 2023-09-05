@@ -1,4 +1,4 @@
-import { raiseAppError } from '@common/errors/raise';
+import raiseAppError from '@common/errors/raise';
 import { AppErrorType } from '@common/errors/types';
 import ITruthStoreProvider, { TruthStore } from '@common/interfaces/truthStore';
 import { Account, EventType, Operation } from '@common/types/account';
@@ -16,7 +16,7 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
     return Promise.resolve(this.store);
   }
 
-  retrieve(accountNumber: string): Promise<Account | null> {
+  retrieve(accountNumber: string): Promise<Account> {
     const account = this.getAccount(accountNumber);
     return Promise.resolve(account);
   }
@@ -111,8 +111,8 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
     return event;
   }
 
-  private getAccount(accountNumber: string): Account | null {
-    return this.store[accountNumber] || null;
+  private getAccount(accountNumber: string): Account {
+    return this.store[accountNumber];
   }
 
   private putAccount(account: Account): Account {

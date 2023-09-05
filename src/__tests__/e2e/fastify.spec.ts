@@ -11,7 +11,7 @@ import { HttpSuccessResponse } from '@common/types/http';
 
 import * as loggers from '@common/utils/logger';
 import loadEnvironment, { nodeEnv } from '@config/environment';
-import { raiseAppError } from '@common/errors/raise';
+import raiseAppError from '@common/errors/raise';
 import { AppErrorType } from '@common/errors/types';
 
 describe('Integration tests for Fastify', () => {

@@ -1,5 +1,9 @@
+import AppError from '@common/errors/AppError';
+import raiseAppError from '@common/errors/raise';
+import { AppErrorType } from '@common/errors/types';
 import TruthStoreProvider from '@common/providers/TruthStoreProvider';
-import { assert } from 'chai';
+import { Account } from '@common/types/account';
+import { assert, expect } from 'chai';
 import sinon from 'sinon';
 
 describe('Unit tests for TruthStore provider - Operations', async () => {
@@ -7,16 +11,19 @@ describe('Unit tests for TruthStore provider - Operations', async () => {
   let retrieveStub: sinon.SinonStub;
   const truthStore = new TruthStoreProvider();
 
-  const accs = {
+  const accounts = {
     existingA: '100',
     existingB: '300',
     notExistingC: '200',
   };
 
-  await truthStore.open({ accountNumber: accs.existingA, balance: 0 }, '123');
-  await truthStore.open({ accountNumber: accs.existingB, balance: 0 }, '321');
-
   describe('Account Operation tests', async () => {
+
+    before(async() => {
+      await truthStore.open({ accountNumber: accounts.existingA, balance: 0 }, '123');
+      await truthStore.open({ accountNumber: accounts.existingB, balance: 0 }, '321');
+    })
+
     beforeEach(async () => {
       sandbox = sinon.createSandbox();
       retrieveStub = sinon.stub(TruthStoreProvider.prototype, 'retrieve');
@@ -26,9 +33,35 @@ describe('Unit tests for TruthStore provider - Operations', async () => {
       sandbox.restore();
     });
 
-    it('should allow deposit on existing account', async () => {});
+    after(async() => await truthStore.wipe())
 
-    it('should not allow deposit on non-existing account', async () => {});
+    it('should allow deposit on existing account', async () => {
+      const { existingA } = accounts
+      const accountBeforeDeposit = (await truthStore.retrieve(existingA)) as Account
+      assert.isNotEmpty(accountBeforeDeposit);
+      assert.equal(accountBeforeDeposit.balance, 0);
+
+      const deposit = await truthStore.deposit({ amount: 100, date: new Date(), destination: existingA }, 'deposit-1')
+      assert.equal(deposit.destination, existingA)
+      assert.equal(deposit.amount, 100)
+      
+      const accountAfterDeposit = (await truthStore.retrieve(existingA)) as Account
+      const operationEvent = accountAfterDeposit.events[1]
+      assert.isNotEmpty(operationEvent);
+      assert.equal(operationEvent.trackerId, 'deposit-1')
+      assert.equal(accountAfterDeposit.balance, 100);
+    });
+
+    it('should not allow deposit on non-existing account', async () => {
+      const { notExistingC } = accounts
+      const depositAccount = await truthStore.retrieve(notExistingC)
+      assert.equal(depositAccount, undefined)
+      
+      const depositPromise = async () => await truthStore.deposit({ amount: 100, date: new Date(), destination: notExistingC }, 'deposit-2')
+      const noDestinyAccountError = raiseAppError(AppErrorType.NOTFOUND_DESTINY_ACCOUNT)
+
+      expect(depositPromise).to.throw(noDestinyAccountError)
+    });
 
     it('should allow withdraw on existing account', async () => {});
 

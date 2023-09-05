@@ -1,38 +1,50 @@
 import AppError from './AppError';
 import { AppErrorType } from './types';
 
-export const raiseAppError = (error: AppErrorType, message?: string): AppError => {
+export type AppErrorProps = {
+  error: AppErrorType,
+  message: string,
+  statusCode: number
+}
+
+export const assembleAppError = (error: AppErrorType, customMessage?: string): AppErrorProps => {
   let statusCode = 500;
-  let messageError;
+  let message;
 
   switch (error) {
     case AppErrorType.ALREADY_OPEN_ACCOUNT:
       statusCode = 409;
-      messageError = 'The account provided was already open!';
+      message = 'The account provided was already open!';
       break;
     case AppErrorType.NOTFOUND_ORIGIN_ACCOUNT:
       statusCode = 404;
-      messageError = 'The source account provided was not found!';
+      message = 'The source account provided was not found!';
       break;
     case AppErrorType.NOTFOUND_DESTINY_ACCOUNT:
       statusCode = 404;
-      messageError = 'The destiny account provided was not found!';
+      message = 'The destiny account provided was not found!';
       break;
     case AppErrorType.NON_SUFFICIENT_FUNDS:
       statusCode = 422;
-      messageError = 'The account funds are insufficient to perform this request!';
+      message = 'The account funds are insufficient to perform this request!';
       break;
     case AppErrorType.INVALID_AMOUNT:
       statusCode = 400;
-      messageError = 'The amount provided are invalid to perform this request!';
+      message = 'The amount provided are invalid to perform this request!';
       break;
     default:
       break;
   }
 
-  if (message) {
-    messageError += '\\n' + message;
+  if (customMessage) {
+    message += '\\n' + customMessage;
   }
 
-  return new AppError(error, messageError, statusCode);
+  return {  error, message, statusCode };
 };
+
+const raiseAppError = (error: AppErrorType, message?: string): AppError => {
+  return AppError.raise(error, message);
+}
+
+export default raiseAppError

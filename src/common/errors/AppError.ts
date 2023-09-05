@@ -1,23 +1,26 @@
 import { HttpErrorResponse } from '@common/types/http';
 import { AppErrorType } from './types';
 import { errorResponse } from '@common/utils/response';
+import { AppErrorProps, assembleAppError } from './raise';
 
 class AppError extends Error {
   private error: AppErrorType;
   private statusCode: number;
-  private details: unknown;
 
-  constructor(error: AppErrorType, message: string, statusCode: number, details?: unknown) {
-    super(message);
-    this.error = error;
-    this.statusCode = statusCode;
-    this.details = details;
+  private constructor(errorProps: AppErrorProps) {
+    super(errorProps.message);
+    this.error = errorProps.error;
+    this.statusCode = errorProps.statusCode;
   }
 
   toResponseError(): HttpErrorResponse {
-    const details = { ...(this.details || {}), error: this.error };
-    this.details = { ...details };
+    const details = { error: this.error };
     return errorResponse(this.statusCode, this.message, details);
+  }
+
+  static raise(error: AppErrorType, message?: string): AppError {
+    const errorProps = assembleAppError(error, message)
+    return new AppError(errorProps);
   }
 }
 
