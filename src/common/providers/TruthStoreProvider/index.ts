@@ -16,8 +16,11 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
     return Promise.resolve(this.store);
   }
 
-  retrieve(accountNumber: string): Promise<Account> {
+  retrieve(accountNumber: string): Promise<Account | null> {
     const account = this.getAccount(accountNumber);
+    if (!account || !account.accountNumber) {
+      return Promise.resolve(null);
+    }
     return Promise.resolve(account);
   }
 
