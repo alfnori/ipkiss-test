@@ -68,6 +68,7 @@
     "@typescript-eslint/parser": "^6.5.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "chai": "^4.3.8",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",

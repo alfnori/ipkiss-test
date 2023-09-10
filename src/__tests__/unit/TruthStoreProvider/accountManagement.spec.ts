@@ -10,9 +10,9 @@ describe('Unit tests for TruthStore provider - Account', async () => {
       assert.equal(JSON.stringify(list), '{}');
     });
 
-    it('should return null if no account was found!', async () => {
+    it('should return a empty account if no account was found!', async () => {
       const account = await truthStore.retrieve('123');
-      assert.isNull(account);
+      assert.isUndefined(account.accountNumber);
     });
 
     it('should store a new account!', async () => {
