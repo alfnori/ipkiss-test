@@ -32,8 +32,6 @@ export const assembleAppError = (error: AppErrorType, customMessage?: string): A
       statusCode = 400;
       message = 'The amount provided are invalid to perform this operation!';
       break;
-    default:
-      break;
   }
 
   if (customMessage) {

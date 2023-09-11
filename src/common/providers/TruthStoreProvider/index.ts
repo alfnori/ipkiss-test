@@ -113,7 +113,7 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
     const transferEvent = this.createOperation(EventType.TRANSFER, payload, trackerId);
 
     const { events: eventsDestinatiob, accountNumber: destination, balance: balanceDestiny } = accountDestination;
-    const newBalanceDestiny = balanceDestiny - amount;
+    const newBalanceDestiny = balanceDestiny + amount;
 
     this.putAccount({ accountNumber: origin, balance: newBalanceOrigin, events: [...eventsOrigin, transferEvent] });
     this.putAccount({ accountNumber: destination, balance: newBalanceDestiny, events: [...eventsDestinatiob, transferEvent] });
