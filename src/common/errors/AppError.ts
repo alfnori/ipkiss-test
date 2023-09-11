@@ -19,7 +19,7 @@ class AppError extends Error {
   }
 
   static raise(error: AppErrorType, message?: string): AppError {
-    const errorProps = assembleAppError(error, message)
+    const errorProps = assembleAppError(error, message);
     return new AppError(errorProps);
   }
 }

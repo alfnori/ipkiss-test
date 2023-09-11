@@ -2,10 +2,10 @@ import AppError from './AppError';
 import { AppErrorType } from './types';
 
 export type AppErrorProps = {
-  error: AppErrorType,
-  message: string,
-  statusCode: number
-}
+  error: AppErrorType;
+  message: string;
+  statusCode: number;
+};
 
 export const assembleAppError = (error: AppErrorType, customMessage?: string): AppErrorProps => {
   let statusCode = 500;
@@ -26,11 +26,11 @@ export const assembleAppError = (error: AppErrorType, customMessage?: string): A
       break;
     case AppErrorType.NON_SUFFICIENT_FUNDS:
       statusCode = 422;
-      message = 'The account funds are insufficient to perform this request!';
+      message = 'The account funds are insufficient to perform this operation!';
       break;
     case AppErrorType.INVALID_AMOUNT:
       statusCode = 400;
-      message = 'The amount provided are invalid to perform this request!';
+      message = 'The amount provided are invalid to perform this operation!';
       break;
     default:
       break;
@@ -40,11 +40,11 @@ export const assembleAppError = (error: AppErrorType, customMessage?: string): A
     message += '\\n' + customMessage;
   }
 
-  return {  error, message, statusCode };
+  return { error, message, statusCode };
 };
 
 const raiseAppError = (error: AppErrorType, message?: string): AppError => {
   return AppError.raise(error, message);
-}
+};
 
-export default raiseAppError
+export default raiseAppError;

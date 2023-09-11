@@ -34,14 +34,14 @@ describe('Integration tests for Fastify', () => {
     fastify.close();
   });
 
-  it('should return a error if a exception was not caugth!', async () => {
+  it('should return a error if a exception was not caugth', async () => {
     truthStoreStub.throws(new Error('Uncaugth Error!'));
     const response = await supertest(fastify.server).post('/reset').expect(500);
     assert.equal(response.statusCode, 500);
     assert.equal(response.text, '{"statusCode":500,"success":false,"message":"Internal Server Error"}');
   });
 
-  it('should return a error if a AppError exception was not caugth!', async () => {
+  it('should return a error if a AppError exception was not caugth', async () => {
     truthStoreStub.throws(raiseAppError(AppErrorType.ALREADY_OPEN_ACCOUNT, 'Custom AppError'));
     const response = await supertest(fastify.server).post('/reset').expect(409);
     assert.equal(response.statusCode, 409);
@@ -51,14 +51,14 @@ describe('Integration tests for Fastify', () => {
     );
   });
 
-  it('should return a requestId if the header was present!', async () => {
+  it('should return a requestId if the header was present', async () => {
     const customRequestId = 'custom-request-id';
     const response = await supertest(fastify.server).post('/').set('x-request-id', customRequestId).expect(404);
     assert.equal(response.statusCode, 404);
     assert.equal(response.headers['x-request-id'], customRequestId);
   });
 
-  it('should recover a POST body properly if present!', async () => {
+  it('should recover a POST body properly if present', async () => {
     const payload = { data: 123 };
     const response = await supertest(fastify.server).post('/reset').send(payload).expect(200);
     const params = controllerSpy.getCall(0).args;
@@ -67,7 +67,7 @@ describe('Integration tests for Fastify', () => {
     assert.equal(request.body, JSON.stringify(payload));
   });
 
-  it('should return a body properly if sent!', async () => {
+  it('should return a body properly if sent', async () => {
     const payload: HttpSuccessResponse = {
       statusCode: 200,
       success: true,

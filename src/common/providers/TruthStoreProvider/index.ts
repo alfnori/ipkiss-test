@@ -25,6 +25,11 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
   }
 
   async open(accountInfo: AccountDTO, trackerId: string): Promise<Account> {
+    const existingAccount = this.getAccount(accountInfo.accountNumber);
+    if (existingAccount && existingAccount.accountNumber) {
+      throw raiseAppError(AppErrorType.ALREADY_OPEN_ACCOUNT);
+    }
+
     const { accountNumber, balance } = accountInfo;
     const amount = balance || 0;
     const openEvent = this.createOperation(EventType.OPEN, { amount }, trackerId);
@@ -41,6 +46,10 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
   async deposit(payload: DepositDTO, trackerId: string): Promise<Operation> {
     const depositAccount = await this.retrieve(payload.destination);
 
+    if (payload.amount <= 0) {
+      throw raiseAppError(AppErrorType.INVALID_AMOUNT);
+    }
+
     if (!depositAccount || !depositAccount.accountNumber) {
       throw raiseAppError(AppErrorType.NOTFOUND_DESTINY_ACCOUNT);
     }
@@ -56,6 +65,10 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
 
   async withdraw(payload: WithdrawDTO, trackerId: string): Promise<Operation> {
     const withdrawAccount = await this.retrieve(payload.origin);
+
+    if (payload.amount <= 0) {
+      throw raiseAppError(AppErrorType.INVALID_AMOUNT);
+    }
 
     if (!withdrawAccount || !withdrawAccount.accountNumber) {
       throw raiseAppError(AppErrorType.NOTFOUND_ORIGIN_ACCOUNT);
@@ -75,6 +88,10 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
   }
 
   async transfer(payload: TransferDTO, trackerId: string): Promise<Operation> {
+    if (payload.amount <= 0) {
+      throw raiseAppError(AppErrorType.INVALID_AMOUNT);
+    }
+
     const accountOrigin = await this.retrieve(payload.origin);
     if (!accountOrigin || !accountOrigin.accountNumber) {
       throw raiseAppError(AppErrorType.NOTFOUND_ORIGIN_ACCOUNT);
