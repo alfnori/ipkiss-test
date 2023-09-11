@@ -74,5 +74,14 @@ describe('Unit tests for TruthStore provider - Account', async () => {
       assert.equal(Object.keys(listBeforeWipe).length, 2);
       assert.equal(Object.keys(listAfterWipe).length, 0);
     });
+
+    it('should seed accounts', async () => {
+      const listBeforeWipe = await truthStore.list();
+      await truthStore.seed();
+      const listAfterWipe = await truthStore.list();
+      assert.equal(Object.keys(listBeforeWipe).length, 0);
+      assert.equal(Object.keys(listAfterWipe).length, 1);
+    });
+
   });
 });

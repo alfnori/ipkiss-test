@@ -7,6 +7,17 @@ import { OperationDTO, AccountDTO, DepositDTO, WithdrawDTO, TransferDTO } from '
 export default class TruthStoreProvider implements ITruthStoreProvider {
   private store: TruthStore = {};
 
+  seed(): Promise<void> {
+    this.store = {
+      '300': {
+        accountNumber: '300',
+        balance: 0,
+        events: [ { type: EventType.OPEN, date: new Date(), amount: 0, trackerId: 'seed-account-300' } ]
+      }
+    };
+    return Promise.resolve();
+  }
+
   wipe(): Promise<void> {
     this.store = {};
     return Promise.resolve();

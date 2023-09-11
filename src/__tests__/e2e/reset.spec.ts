@@ -23,4 +23,11 @@ describe('Integration tests for module Reset', () => {
     assert.equal(response.statusCode, 200);
     assert.equal(response.text, 'OK');
   });
+
+  it('should return a OK on a POST /wipe endpoint', async () => {
+    const response = await supertest(fastify.server).post('/wipe').expect(200);
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.text, 'OK');
+  });
+
 });

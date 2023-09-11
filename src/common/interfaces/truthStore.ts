@@ -4,6 +4,7 @@ import { AccountDTO, DepositDTO, TransferDTO, WithdrawDTO } from '@common/types/
 export type TruthStore = Record<string, Account>;
 
 export default interface ITruthStoreProvider {
+  seed(): Promise<void>;
   wipe(): Promise<void>;
   list(): Promise<TruthStore>;
   retrieve(accountNumber: string): Promise<Account>;

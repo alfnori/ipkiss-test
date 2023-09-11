@@ -13,11 +13,17 @@ class ResetService {
     this.truthStoreProvider = truthStoreProvider;
   }
 
-  public async reset(): Promise<void> {
+  public async seed(): Promise<void> {
+    await this.truthStoreProvider.seed();
+    logger.info(this, 'memory seeded!');
+  }
+
+  public async wipe(): Promise<void> {
     //memory wiped
     await this.truthStoreProvider.wipe();
     logger.info(this, 'memory wiped!');
   }
+
 }
 
 export default ResetService;

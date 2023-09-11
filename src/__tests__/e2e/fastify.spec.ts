@@ -22,7 +22,7 @@ describe('Integration tests for Fastify', () => {
 
   beforeEach(async () => {
     sandbox = sinon.createSandbox();
-    truthStoreStub = sinon.stub(TruthStoreProvider.prototype, 'wipe');
+    truthStoreStub = sinon.stub(TruthStoreProvider.prototype, 'seed');
     controllerSpy = sinon.spy(ResetController.prototype, 'reset');
     fastify = buildServer();
     await fastify.ready();
