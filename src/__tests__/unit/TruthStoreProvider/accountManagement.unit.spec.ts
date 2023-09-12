@@ -82,6 +82,5 @@ describe('Unit tests for TruthStore provider - Account', async () => {
       assert.equal(Object.keys(listBeforeWipe).length, 0);
       assert.equal(Object.keys(listAfterWipe).length, 1);
     });
-
   });
 });

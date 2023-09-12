@@ -2,9 +2,10 @@ import { container } from 'tsyringe';
 import BalanceService from './service';
 import { FastifyRequest, FastifyReply } from 'fastify';
 import logger from '@common/utils/logger';
+import { AccountIdDTO } from '@common/types/dto/controllers';
 
 type AccountRequest = FastifyRequest<{
-  Querystring: { account_id: string };
+  Querystring: AccountIdDTO;
 }>;
 
 class BalanceController {

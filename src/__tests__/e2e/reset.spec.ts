@@ -29,5 +29,4 @@ describe('Integration tests for module Reset', () => {
     assert.equal(response.statusCode, 200);
     assert.equal(response.text, 'OK');
   });
-
 });

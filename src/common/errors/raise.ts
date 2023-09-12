@@ -2,16 +2,16 @@ import AppError from './AppError';
 import { AppErrorType } from './types';
 
 export type AppErrorProps = {
-  error: AppErrorType;
+  type: AppErrorType;
   message: string;
   statusCode: number;
 };
 
-export const assembleAppError = (error: AppErrorType, customMessage?: string): AppErrorProps => {
+export const assembleAppError = (type: AppErrorType, customMessage?: string): AppErrorProps => {
   let statusCode = 500;
   let message;
 
-  switch (error) {
+  switch (type) {
     case AppErrorType.ALREADY_OPEN_ACCOUNT:
       statusCode = 409;
       message = 'The account provided was already open!';
@@ -38,7 +38,7 @@ export const assembleAppError = (error: AppErrorType, customMessage?: string): A
     message += '\\n' + customMessage;
   }
 
-  return { error, message, statusCode };
+  return { type, message, statusCode };
 };
 
 const raiseAppError = (error: AppErrorType, message?: string): AppError => {

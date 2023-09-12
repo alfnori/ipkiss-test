@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 
 import resetRoutes from '@modules/reset/routes';
 import balanceRoutes from '@modules/balance/routes';
+import eventRoutes from '@modules/event/routes';
 import { successResponse } from '@common/utils/response';
 
 const registerRoutes = (server: FastifyInstance): void => {
@@ -11,7 +12,7 @@ const registerRoutes = (server: FastifyInstance): void => {
   });
   server.register(resetRoutes);
   server.register(balanceRoutes);
-  //   server.register(eventRoutes);
+  server.register(eventRoutes);
 };
 
 export default registerRoutes;

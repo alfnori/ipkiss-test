@@ -2,7 +2,7 @@ import raiseAppError from '@common/errors/raise';
 import { AppErrorType } from '@common/errors/types';
 import ITruthStoreProvider, { TruthStore } from '@common/interfaces/truthStore';
 import { Account, EventType, Operation } from '@common/types/account';
-import { OperationDTO, AccountDTO, DepositDTO, WithdrawDTO, TransferDTO } from '@common/types/dto';
+import { OperationDTO, AccountDTO, DepositDTO, WithdrawDTO, TransferDTO } from '@common/types/dto/services';
 
 export default class TruthStoreProvider implements ITruthStoreProvider {
   private store: TruthStore = {};
@@ -12,8 +12,8 @@ export default class TruthStoreProvider implements ITruthStoreProvider {
       '300': {
         accountNumber: '300',
         balance: 0,
-        events: [ { type: EventType.OPEN, date: new Date(), amount: 0, trackerId: 'seed-account-300' } ]
-      }
+        events: [{ type: EventType.OPEN, date: new Date(), amount: 0, trackerId: 'seed-account-300' }],
+      },
     };
     return Promise.resolve();
   }

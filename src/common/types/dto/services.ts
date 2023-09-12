@@ -1,4 +1,4 @@
-import { Account, EventType } from './account';
+import { Account, EventType } from '../account';
 
 export type AccountDTO = {
   accountNumber: string;
@@ -37,23 +37,4 @@ export type TransferDTO = {
   destination: string;
   amount: number;
   date: Date;
-};
-
-export type IntervalDTO = {
-  startDate: Date;
-  endDate: Date;
-};
-
-export type OriginEventDT0 = {
-  origin: {
-    id: string;
-    balance: number;
-  };
-};
-
-export type DestinationEventDT0 = {
-  destination: {
-    id: string;
-    balance: number;
-  };
 };

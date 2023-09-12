@@ -23,7 +23,6 @@ class ResetService {
     await this.truthStoreProvider.wipe();
     logger.info(this, 'memory wiped!');
   }
-
 }
 
 export default ResetService;

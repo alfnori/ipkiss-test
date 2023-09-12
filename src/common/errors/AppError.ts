@@ -4,22 +4,22 @@ import { errorResponse } from '@common/utils/response';
 import { AppErrorProps, assembleAppError } from './raise';
 
 class AppError extends Error {
-  private error: AppErrorType;
-  private statusCode: number;
+  readonly type: AppErrorType;
+  readonly statusCode: number;
 
   private constructor(errorProps: AppErrorProps) {
     super(errorProps.message);
-    this.error = errorProps.error;
+    this.type = errorProps.type;
     this.statusCode = errorProps.statusCode;
   }
 
   toResponseError(): HttpErrorResponse {
-    const details = { error: this.error };
+    const details = { error: this.type };
     return errorResponse(this.statusCode, this.message, details);
   }
 
-  static raise(error: AppErrorType, message?: string): AppError {
-    const errorProps = assembleAppError(error, message);
+  static raise(type: AppErrorType, message?: string): AppError {
+    const errorProps = assembleAppError(type, message);
     return new AppError(errorProps);
   }
 }
