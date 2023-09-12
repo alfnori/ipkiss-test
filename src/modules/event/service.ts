@@ -1,5 +1,5 @@
 import ITruthStoreProvider from '@common/interfaces/truthStore';
-import { DepositOperationDTO, DestinationEventDTO, OriginEventDTO, WithdrawOperationDTO } from '@common/types/dto/controllers';
+import { DepositOperationDTO, DestinationEventDTO, OriginEventDTO, TransferEventDTO, TransferOperationDTO, WithdrawOperationDTO } from '@common/types/dto/controllers';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
@@ -49,6 +49,23 @@ class EventService {
       origin: {
         id: accountState.accountNumber,
         balance: accountState.balance,
+      },
+    };
+  }
+
+  public async transferOperation(event: TransferOperationDTO, trackerId: string): Promise<TransferEventDTO> {
+    await this.truthStoreProvider.transfer({ ...event, date: new Date() }, trackerId);
+    const originState = await this.truthStoreProvider.retrieve(event.origin);
+    const destinationState = await this.truthStoreProvider.retrieve(event.destination);
+
+    return {
+      origin: {
+        id: originState.accountNumber,
+        balance: originState.balance,
+      },
+      destination: {
+        id: destinationState.accountNumber,
+        balance: destinationState.balance,
       },
     };
   }

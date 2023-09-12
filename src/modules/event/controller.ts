@@ -4,7 +4,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import logger from '@common/utils/logger';
 import { EventType } from '@common/types/account';
 import AppError from '@common/errors/AppError';
-import { DepositOperationDTO, EventOperationDTO, WithdrawOperationDTO } from '@common/types/dto/controllers';
+import { DepositOperationDTO, EventOperationDTO, TransferOperationDTO, WithdrawOperationDTO } from '@common/types/dto/controllers';
 import { HttpResponse } from '@common/types/http';
 
 type EventRequest = FastifyRequest<{
@@ -26,11 +26,9 @@ class EventController {
       case EventType.WITHDRAW:
         operation = await EventController.withdrawAdapter({ origin, amount }, trackedId);
       break;
-      /**
       case EventType.TRANSFER:
-        operation = await this.transfer({ origin, destination, amount }, reply);
+        operation = await EventController.transferAdapter({ origin, destination, amount }, trackedId);
       break;
-       */
     }
 
     logger.info({ event, operation: operation.data }, `EventPerformed ${type}`);
@@ -60,6 +58,30 @@ class EventController {
     } catch (error) {
       const responseError = (error as AppError).toResponseError();
       logger.error({ error, responseError }, 'Withdraw AppError raised!');
+
+      statusCode = 404;
+      data = 0;
+      success = false;
+    } finally {
+      return { statusCode, success, data };
+    }
+  }
+
+  private static async transferAdapter(event: TransferOperationDTO, trackerId: string): Promise<HttpResponse> {
+    const service = container.resolve(EventService);
+
+    let statusCode, data, success;
+
+    try {
+      const operation = await service.transferOperation(event, trackerId);
+      logger.info({ operation }, `TransferPerformed ${trackerId}`);
+
+      statusCode = 201;
+      data = operation;
+      success = true;
+    } catch (error) {
+      const responseError = (error as AppError).toResponseError();
+      logger.error({ error, responseError }, 'Transfer AppError raised!');
 
       statusCode = 404;
       data = 0;
