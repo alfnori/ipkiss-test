@@ -25,10 +25,10 @@ class EventController {
         break;
       case EventType.WITHDRAW:
         operation = await EventController.withdrawAdapter({ origin, amount }, trackedId);
-      break;
+        break;
       case EventType.TRANSFER:
         operation = await EventController.transferAdapter({ origin, destination, amount }, trackedId);
-      break;
+        break;
     }
 
     logger.info({ event, operation: operation.data }, `EventPerformed ${type}`);
@@ -90,7 +90,6 @@ class EventController {
       return { statusCode, success, data };
     }
   }
-
 }
 
 export default EventController;

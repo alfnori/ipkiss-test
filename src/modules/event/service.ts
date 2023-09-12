@@ -1,5 +1,12 @@
 import ITruthStoreProvider from '@common/interfaces/truthStore';
-import { DepositOperationDTO, DestinationEventDTO, OriginEventDTO, TransferEventDTO, TransferOperationDTO, WithdrawOperationDTO } from '@common/types/dto/controllers';
+import {
+  DepositOperationDTO,
+  DestinationEventDTO,
+  OriginEventDTO,
+  TransferEventDTO,
+  TransferOperationDTO,
+  WithdrawOperationDTO,
+} from '@common/types/dto/controllers';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
@@ -18,8 +25,8 @@ class EventService {
     const previousAccountState = await this.truthStoreProvider.retrieve(destination);
 
     if (!previousAccountState.accountNumber) {
-      const accountNumber = destination
-      const balance = amount
+      const accountNumber = destination;
+      const balance = amount;
       await this.truthStoreProvider.open({ accountNumber, balance }, trackerId);
 
       return {
@@ -69,7 +76,6 @@ class EventService {
       },
     };
   }
-
 }
 
 export default EventService;
