@@ -1,5 +1,5 @@
 import ITruthStoreProvider from '@common/interfaces/truthStore';
-import { DepositOperationDTO, DestinationEventDTO } from '@common/types/dto/controllers';
+import { DepositOperationDTO, DestinationEventDTO, OriginEventDTO, WithdrawOperationDTO } from '@common/types/dto/controllers';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
@@ -40,6 +40,19 @@ class EventService {
       },
     };
   }
+
+  public async withdrawOperation(event: WithdrawOperationDTO, trackerId: string): Promise<OriginEventDTO> {
+    await this.truthStoreProvider.withdraw({ ...event, date: new Date() }, trackerId);
+    const accountState = await this.truthStoreProvider.retrieve(event.origin);
+
+    return {
+      origin: {
+        id: accountState.accountNumber,
+        balance: accountState.balance,
+      },
+    };
+  }
+
 }
 
 export default EventService;
