@@ -1,5 +1,5 @@
 import { Account, Operation } from '@common/types/account';
-import { AccountDTO, DepositDTO, TransferDTO, WithdrawDTO } from '@common/types/dto';
+import { AccountDTO, DepositDTO, TransferDTO, WithdrawDTO } from '@common/types/dto/services';
 
 export type TruthStore = Record<string, Account>;
 

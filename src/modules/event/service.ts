@@ -14,9 +14,25 @@ class EventService {
   }
 
   public async depositOperation(event: DepositOperationDTO, trackerId: string): Promise<DestinationEventDTO> {
-    await this.truthStoreProvider.deposit(event, trackerId);
+    const { destination, amount } = event;
+    const previousAccountState = await this.truthStoreProvider.retrieve(destination);
 
-    const accountState = await this.truthStoreProvider.retrieve(event.destination);
+    if (!previousAccountState.accountNumber) {
+      const accountNumber = destination
+      const balance = amount
+      await this.truthStoreProvider.open({ accountNumber, balance }, trackerId);
+
+      return {
+        destination: {
+          id: accountNumber,
+          balance: balance,
+        },
+      };
+    }
+
+    await this.truthStoreProvider.deposit({ ...event, date: new Date() }, trackerId);
+    const accountState = await this.truthStoreProvider.retrieve(destination);
+
     return {
       destination: {
         id: accountState.accountNumber,

@@ -51,11 +51,11 @@ describe('Integration tests for module Event - Deposit', async () => {
       await supertest(fastify.server).post(`/reset`);
     });
 
-    it('should return a statusCode 404 when destination not found on a POST /event endpoint', async () => {
-      const payload = { type: EventType.DEPOSIT, amount: 10, destination: '123' };
-      const response = await supertest(fastify.server).post('/event').send(payload).expect(404);
-      assert.equal(response.statusCode, 404);
-      assert.equal(response.text, '0');
+    it('should create an account on first depoist on a POST /event endpoint', async () => {
+      const payload = { type: EventType.DEPOSIT, amount: 10, destination: '100' };
+      const response = await supertest(fastify.server).post('/event').send(payload).expect(201);
+      assert.equal(response.statusCode, 201);
+      assert.equal(response.text, '{"destination":{"id":"100","balance":10}}');
     });
 
     it('should return the new account balance after deposit on a POST /event endpoint', async () => {
