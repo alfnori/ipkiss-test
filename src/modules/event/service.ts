@@ -1,5 +1,4 @@
 import ITruthStoreProvider from '@common/interfaces/truthStore';
-import { Account } from '@common/types/account';
 import { DepositOperationDTO, DestinationEventDTO } from '@common/types/dto/controllers';
 import { inject, injectable } from 'tsyringe';
 
@@ -14,12 +13,16 @@ class EventService {
     this.truthStoreProvider = truthStoreProvider;
   }
 
-  public async getState(accountId: string): Promise<Account> {
-    return await this.truthStoreProvider.retrieve(accountId);
-  }
+  public async depositOperation(event: DepositOperationDTO, trackerId: string): Promise<DestinationEventDTO> {
+    await this.truthStoreProvider.deposit(event, trackerId);
 
-  public async depositOperation(deposit: DepositOperationDTO): Promise<DestinationEventDTO> {
-    throw new Error('Invalid Method');
+    const accountState = await this.truthStoreProvider.retrieve(event.destination);
+    return {
+      destination: {
+        id: accountState.accountNumber,
+        balance: accountState.balance,
+      },
+    };
   }
 }
 

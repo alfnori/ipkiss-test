@@ -30,8 +30,18 @@ const configureServer = (server: FastifyInstance) => {
       data += chunk;
     });
     payload.on('end', () => {
-      done(null, data);
+      let body = data;
+      try {
+        body = JSON.parse(data);
+      } catch {}
+      done(null, body);
     });
+  });
+
+  server.addHook('preValidation', function (req, _reply, done) {
+    const { body, params, query, headers } = req;
+    req.log.info({ body, params, query, headers }, 'payload request');
+    done();
   });
 
   server.addHook('onSend', (request, response, _payload, done) => {

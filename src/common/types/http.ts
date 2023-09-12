@@ -1,14 +1,16 @@
-export type HttpResponse = {
+export type HttpResponseBase = {
   statusCode: number;
   success: boolean;
 };
 
-export type HttpSuccessResponse = HttpResponse & {
+export type HttpSuccessResponse = HttpResponseBase & {
   message?: string;
   data?: unknown;
 };
 
-export type HttpErrorResponse = HttpResponse & {
+export type HttpErrorResponse = HttpResponseBase & {
   message: string;
   details?: unknown;
 };
+
+export type HttpResponse = HttpSuccessResponse | HttpErrorResponse;

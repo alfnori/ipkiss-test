@@ -64,7 +64,7 @@ describe('Integration tests for Fastify', () => {
     const params = controllerSpy.getCall(0).args;
     const request = params[0] || {};
     assert.equal(response.statusCode, 200);
-    assert.equal(request.body, JSON.stringify(payload));
+    assert.equal(JSON.stringify(request.body), JSON.stringify(payload));
   });
 
   it('should return a body properly if sent', async () => {

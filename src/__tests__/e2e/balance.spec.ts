@@ -4,21 +4,16 @@ import supertest from 'supertest';
 import buildServer from '../../server/fastify';
 import { FastifyInstance } from 'fastify';
 
-
 const accountId = '300';
 const noAccountId = '200';
 
 describe('Integration tests for module Balance', async () => {
   let fastify: FastifyInstance;
-  const resetState = async (fastify) => await supertest(fastify.server).post(`/reset`);
-
-  before(async () => {
-    await resetState(fastify);
-  })
 
   beforeEach(async () => {
     fastify = buildServer();
     await fastify.ready();
+    await supertest(fastify.server).post(`/reset`);
   });
   afterEach(async () => {
     fastify.close();
