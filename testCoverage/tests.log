@@ -1,0 +1,94 @@
+> NODE_ENV=test nyc --reporter=text-summary mocha --check-leaks -r tsconfig-paths/register -r ts-node/register "src/__tests__/**/*.spec.ts"
+
+  Integration tests for module Balance
+    ✔ should return a error when account was not provided on a GET /balance endpoint
+    ✔ should return a empty value when account is not found on a GET /balance endpoint
+    ✔ should return a amount value when account is found on a GET /balance endpoint
+
+  Integration tests for module Event - Deposit
+    Validation Scenarios for Deposit
+      ✔ should return a error when no payload was provided on a POST /event endpoint
+      ✔ should return a error when type provided was invalid on a POST /event endpoint
+      ✔ should return a error when destination was invalid on a POST /event endpoint
+      ✔ should return a error when amount was invalid on a POST /event endpoint
+    Operation Scenarios for Deposit
+      ✔ should create an account on first depoist on a POST /event endpoint
+      ✔ should return the new account balance after deposit on a POST /event endpoint
+
+  Integration tests for module Event - Transfer
+    Validation Scenarios for Transfer
+      ✔ should return a error when no payload was provided on a POST /event endpoint
+      ✔ should return a error when type provided was invalid on a POST /event endpoint
+      ✔ should return a error when origin was invalid on a POST /event endpoint
+      ✔ should return a error when destination was invalid on a POST /event endpoint
+      ✔ should return a error when amount was invalid on a POST /event endpoint
+    Operation Scenarios for Transfer
+      ✔ should return a statusCode 404 when origin not found on a POST /event endpoint
+      ✔ should return a statusCode 404 when destination not found on a POST /event endpoint
+      ✔ should return a statusCode 404 when account origin had no funds on a POST /event endpoint
+      ✔ should return the new accounts balances after transfer on a POST /event endpoint
+
+  Integration tests for module Event - Withdraw
+    Validation Scenarios for Withdraw
+      ✔ should return a error when no payload was provided on a POST /event endpoint
+      ✔ should return a error when type provided was invalid on a POST /event endpoint
+      ✔ should return a error when origin was invalid on a POST /event endpoint
+      ✔ should return a error when amount was invalid on a POST /event endpoint
+    Operation Scenarios for Withdraw
+      ✔ should return a statusCode 404 when origin not found on a POST /event endpoint
+      ✔ should return a statusCode 404 when account had no funds on a POST /event endpoint
+      ✔ should return the new account balance after withdraw on a POST /event endpoint
+
+  Integration tests for Fastify
+    ✔ should return a error if a exception was not caugth
+    ✔ should return a error if a AppError exception was not caugth
+    ✔ should return a requestId if the header was present
+    ✔ should recover a POST body properly if present
+    ✔ should return a body properly if sent
+    ✔ should return respect environment configurations (48ms)
+
+  Integration tests for module Reset
+    ✔ should return a error on a GET /reset endpoint
+    ✔ should return a OK on a POST /reset endpoint
+    ✔ should return a OK on a POST /wipe endpoint
+
+  Unit tests for TruthStore provider - Account
+    Account Management tests
+      ✔ should return a empty store on begin
+      ✔ should return a empty account if no account was found
+      ✔ should store a new account
+      ✔ should store a second account
+      ✔ should return a opened account
+      ✔ should had two stored accounts
+      ✔ should not accept a open for an already opened accountNumber
+      ✔ should wipe accounts
+      ✔ should seed accounts
+
+  Unit tests for TruthStore provider - Operations
+    Account Operation tests
+      Deposit Operations
+        ✔ should allow deposit on existing account
+        ✔ should not allow deposit on non-existing account
+        ✔ should not allow deposit with negative amounts to a account
+      Withdraw Operations
+        ✔ should allow withdraw on existing account
+        ✔ should not allow withdraw on non-existing account
+        ✔ should not allow withdraw with negative amounts from a account
+        ✔ should not allow withdraw if amount > funds from a account
+      Transfer Operations
+        ✔ should allow transfers between existing accounts
+        ✔ should not allow transfer on non-existing account origin
+        ✔ should not allow transfer on non-existing account destination
+        ✔ should not allow transfers with negative amounts to a account
+        ✔ should not allow transfers if amount > funds from a account
+
+
+  55 passing (1s)
+
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 363/363 )
+Branches     : 100% ( 70/70 )
+Functions    : 100% ( 59/59 )
+Lines        : 100% ( 354/354 )
+================================================================================

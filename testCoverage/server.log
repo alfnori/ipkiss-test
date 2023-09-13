@@ -1,0 +1,465 @@
+
+> ipkiss-test@1.0.0 dev
+> ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server/index.ts
+
+[INFO] 20:57:21 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.1, typescript ver. 5.2.2)
+[23:57:22 UTC] INFO: Server started!
+[23:57:22 UTC] INFO: Server listening at http://0.0.0.0:3000
+[23:57:29 UTC] INFO: memory seeded!
+    truthStoreProvider: {
+      "store": {
+        "300": {
+          "accountNumber": "300",
+          "balance": 0,
+          "events": [
+            {
+              "type": "OPEN",
+              "date": "2023-09-12T23:57:29.553Z",
+              "amount": 0,
+              "trackerId": "seed-account-300"
+            }
+          ]
+        }
+      }
+    }
+[23:57:29 UTC] INFO: AccountInfo 1234
+[23:57:29 UTC] INFO: DepositPerformed 01fa1225-5f96-4d76-a785-75e215971656
+    operation: {
+      "destination": {
+        "id": "100",
+        "balance": 10
+      }
+    }
+[23:57:29 UTC] INFO: EventPerformed deposit
+    event: {
+      "type": "deposit",
+      "destination": "100",
+      "amount": 10
+    }
+    operation: {
+      "destination": {
+        "id": "100",
+        "balance": 10
+      }
+    }
+[23:57:30 UTC] INFO: DepositPerformed 3711b9aa-8256-483a-b4f0-c603dface145
+    operation: {
+      "destination": {
+        "id": "100",
+        "balance": 20
+      }
+    }
+[23:57:30 UTC] INFO: EventPerformed deposit
+    event: {
+      "type": "deposit",
+      "destination": "100",
+      "amount": 10
+    }
+    operation: {
+      "destination": {
+        "id": "100",
+        "balance": 20
+      }
+    }
+[23:57:30 UTC] INFO: AccountInfo 100
+    accountNumber: "100"
+    balance: 20
+    events: [
+      {
+        "amount": 10,
+        "type": "OPEN",
+        "date": "2023-09-12T23:57:29.864Z",
+        "trackerId": "01fa1225-5f96-4d76-a785-75e215971656"
+      },
+      {
+        "destination": "100",
+        "amount": 10,
+        "date": "2023-09-12T23:57:30.019Z",
+        "type": "deposit",
+        "trackerId": "3711b9aa-8256-483a-b4f0-c603dface145"
+      }
+    ]
+[23:57:30 UTC] ERROR: Withdraw AppError raised!
+    responseError: {
+      "statusCode": 404,
+      "success": false,
+      "message": "The source account provided was not found!",
+      "details": {
+        "error": "NOT_FOUND_ACCOUNT"
+      }
+    }
+    error: {
+      "type": "NOT_FOUND_ACCOUNT",
+      "statusCode": 404
+    }
+[23:57:30 UTC] INFO: EventPerformed withdraw
+    event: {
+      "type": "withdraw",
+      "origin": "200",
+      "amount": 10
+    }
+    operation: 0
+[23:57:29 UTC] INFO: incoming request
+    reqId: "373351bf-0621-4530-9b79-b089cbb62d00"
+    req: {
+      "method": "POST",
+      "url": "/reset",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:29 UTC] INFO: payload request
+    reqId: "373351bf-0621-4530-9b79-b089cbb62d00"
+    body: ""
+    params: {}
+    query: {}
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "content-length": "0",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:29 UTC] INFO: request completed
+    reqId: "373351bf-0621-4530-9b79-b089cbb62d00"
+    res: {
+      "statusCode": 200
+    }
+    responseTime: 7.147954000160098
+[23:57:29 UTC] INFO: incoming request
+    reqId: "e410538a-bae1-4a2a-a221-0282ce26710c"
+    req: {
+      "method": "GET",
+      "url": "/balance?account_id=1234",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:29 UTC] INFO: payload request
+    reqId: "e410538a-bae1-4a2a-a221-0282ce26710c"
+    params: {}
+    query: {
+      "account_id": "1234"
+    }
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:29 UTC] INFO: request completed
+    reqId: "e410538a-bae1-4a2a-a221-0282ce26710c"
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 2.064698999747634
+[23:57:29 UTC] INFO: incoming request
+    reqId: "01fa1225-5f96-4d76-a785-75e215971656"
+    req: {
+      "method": "POST",
+      "url": "/event",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:29 UTC] INFO: payload request
+    reqId: "01fa1225-5f96-4d76-a785-75e215971656"
+    body: {
+      "type": "deposit",
+      "destination": "100",
+      "amount": 10
+    }
+    params: {}
+    query: {}
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "content-length": "52",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:29 UTC] INFO: request completed
+    reqId: "01fa1225-5f96-4d76-a785-75e215971656"
+    res: {
+      "statusCode": 201
+    }
+    responseTime: 2.410942000336945
+[23:57:30 UTC] INFO: incoming request
+    reqId: "3711b9aa-8256-483a-b4f0-c603dface145"
+    req: {
+      "method": "POST",
+      "url": "/event",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:30 UTC] INFO: payload request
+    reqId: "3711b9aa-8256-483a-b4f0-c603dface145"
+    body: {
+      "type": "deposit",
+      "destination": "100",
+      "amount": 10
+    }
+    params: {}
+    query: {}
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "content-length": "52",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:30 UTC] INFO: request completed
+    reqId: "3711b9aa-8256-483a-b4f0-c603dface145"
+    res: {
+      "statusCode": 201
+    }
+    responseTime: 0.9831079998984933
+[23:57:30 UTC] INFO: incoming request
+    reqId: "1190a528-1f32-48cf-9ee4-a88989966da0"
+    req: {
+      "method": "GET",
+      "url": "/balance?account_id=100",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:30 UTC] INFO: payload request
+    reqId: "1190a528-1f32-48cf-9ee4-a88989966da0"
+    params: {}
+    query: {
+      "account_id": "100"
+    }
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:30 UTC] INFO: request completed
+    reqId: "1190a528-1f32-48cf-9ee4-a88989966da0"
+    res: {
+      "statusCode": 200
+    }
+    responseTime: 0.6319260001182556
+[23:57:30 UTC] INFO: incoming request
+    reqId: "720b31dc-a04a-463e-b90a-25413a48bf65"
+    req: {
+      "method": "POST",
+      "url": "/event",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:30 UTC] INFO: payload request
+    reqId: "720b31dc-a04a-463e-b90a-25413a48bf65"
+    body: {
+      "type": "withdraw",
+      "origin": "200",
+      "amount": 10
+    }
+    params: {}
+    query: {}
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "content-length": "48",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:30 UTC] INFO: request completed
+    reqId: "720b31dc-a04a-463e-b90a-25413a48bf65"
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 2.1991849998012185
+[23:57:30 UTC] INFO: WithdrawPerformed 17e0c8d1-2c77-4f9e-9178-a12f651f4b57
+    operation: {
+      "origin": {
+        "id": "100",
+        "balance": 15
+      }
+    }
+[23:57:30 UTC] INFO: EventPerformed withdraw
+    event: {
+      "type": "withdraw",
+      "origin": "100",
+      "amount": 5
+    }
+    operation: {
+      "origin": {
+        "id": "100",
+        "balance": 15
+      }
+    }
+[23:57:30 UTC] INFO: incoming request
+    reqId: "17e0c8d1-2c77-4f9e-9178-a12f651f4b57"
+    req: {
+      "method": "POST",
+      "url": "/event",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:30 UTC] INFO: payload request
+    reqId: "17e0c8d1-2c77-4f9e-9178-a12f651f4b57"
+    body: {
+      "type": "withdraw",
+      "origin": "100",
+      "amount": 5
+    }
+    params: {}
+    query: {}
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "content-length": "47",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:30 UTC] INFO: request completed
+    reqId: "17e0c8d1-2c77-4f9e-9178-a12f651f4b57"
+    res: {
+      "statusCode": 201
+    }
+    responseTime: 1.5225259996950626
+[23:57:30 UTC] INFO: incoming request
+    reqId: "242c8620-2198-44ba-90c1-a24ad6e6bd5f"
+    req: {
+      "method": "POST",
+      "url": "/event",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:30 UTC] INFO: payload request
+    reqId: "242c8620-2198-44ba-90c1-a24ad6e6bd5f"
+    body: {
+      "type": "transfer",
+      "origin": "100",
+      "amount": 15,
+      "destination": "300"
+    }
+    params: {}
+    query: {}
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "content-length": "69",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:30 UTC] INFO: request completed
+    reqId: "242c8620-2198-44ba-90c1-a24ad6e6bd5f"
+    res: {
+      "statusCode": 201
+    }
+    responseTime: 1.7165240002796054
+[23:57:30 UTC] INFO: TransferPerformed 242c8620-2198-44ba-90c1-a24ad6e6bd5f
+    operation: {
+      "origin": {
+        "id": "100",
+        "balance": 0
+      },
+      "destination": {
+        "id": "300",
+        "balance": 15
+      }
+    }
+[23:57:30 UTC] INFO: EventPerformed transfer
+    event: {
+      "type": "transfer",
+      "origin": "100",
+      "amount": 15,
+      "destination": "300"
+    }
+    operation: {
+      "origin": {
+        "id": "100",
+        "balance": 0
+      },
+      "destination": {
+        "id": "300",
+        "balance": 15
+      }
+    }
+[23:57:30 UTC] ERROR: Transfer AppError raised!
+    responseError: {
+      "statusCode": 404,
+      "success": false,
+      "message": "The source account provided was not found!",
+      "details": {
+        "error": "NOT_FOUND_ACCOUNT"
+      }
+    }
+    error: {
+      "type": "NOT_FOUND_ACCOUNT",
+      "statusCode": 404
+    }
+[23:57:30 UTC] INFO: EventPerformed transfer
+    event: {
+      "type": "transfer",
+      "origin": "200",
+      "amount": 15,
+      "destination": "300"
+    }
+    operation: 0
+[23:57:30 UTC] INFO: incoming request
+    reqId: "39c5d99b-cd4b-4b47-a824-04351913c393"
+    req: {
+      "method": "POST",
+      "url": "/event",
+      "hostname": "cb28-177-92-49-245.ngrok.io",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 38548
+    }
+[23:57:30 UTC] INFO: payload request
+    reqId: "39c5d99b-cd4b-4b47-a824-04351913c393"
+    body: {
+      "type": "transfer",
+      "origin": "200",
+      "amount": 15,
+      "destination": "300"
+    }
+    params: {}
+    query: {}
+    headers: {
+      "host": "cb28-177-92-49-245.ngrok.io",
+      "user-agent": "hackney/1.16.0",
+      "content-length": "69",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "x-forwarded-for": "52.86.227.42",
+      "x-forwarded-proto": "https",
+      "accept-encoding": "gzip"
+    }
+[23:57:30 UTC] INFO: request completed
+    reqId: "39c5d99b-cd4b-4b47-a824-04351913c393"
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 1.3793369997292757
