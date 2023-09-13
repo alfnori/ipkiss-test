@@ -16,8 +16,7 @@
     "lint": "eslint . --ext .ts && prettier --check \"./src/**/*.ts\"",
     "lint:fix": "eslint . --ext .ts --fix && prettier --write \"./src/**/*.ts\"",
     "prettier": "npx prettier . --fix",
-    "prettier:check": "npx prettier . --check",
-    "prepare": "husky install"
+    "prettier:check": "npx prettier . --check"
   },
   "husky": {
     "hooks": {
