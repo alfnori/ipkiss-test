@@ -55,7 +55,7 @@ describe('Unit tests for TruthStore provider - Account', async () => {
 
     it('should not accept a open for an already opened accountNumber', async () => {
       const accountNumber = '321';
-      const openPromise = truthStore.open({ accountNumber, balance: 0 }, 'openend-321');
+      const openPromise = truthStore.open({ accountNumber, balance: 0 }, 'opened-321');
       const alreadyOpenedAccountError = raiseAppError(AppErrorType.ALREADY_OPEN_ACCOUNT);
 
       openPromise
