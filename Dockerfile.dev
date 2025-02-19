@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --omit=dev
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
@@ -19,7 +19,6 @@ WORKDIR /app
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/ ./
-
 
 # Set environment variables
 ARG PORT
@@ -34,5 +33,4 @@ ENV SIMPLE_LOGGER=${SIMPLE_LOGGER}
 EXPOSE ${PORT}
 
 # Command to run the application
-USER node
-CMD [ "node", "dist/server/index.js" ]
+CMD [ "npm", "run", "dev" ]

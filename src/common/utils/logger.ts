@@ -1,6 +1,6 @@
 import pino from 'pino';
 
-import { nodeEnv } from '@config/environment';
+import { nodeEnv, useSimpleLogger } from '@config/environment';
 
 export const loggerConfigByEnv = () => {
   const loggerConfig = {
@@ -17,6 +17,11 @@ export const loggerConfigByEnv = () => {
     homologation: { level: 'debug' },
     production: true,
   };
+
+  if (useSimpleLogger()) {
+    return true;
+  }
+
   return loggerConfig[nodeEnv()] ?? true;
 };
 

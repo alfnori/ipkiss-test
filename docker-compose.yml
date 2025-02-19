@@ -1,0 +1,13 @@
+services:
+  ipkisstest-api:
+    container_name: ipkisstest-api
+    volumes:
+      - .:/app
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - PORT=${PORT:-8080}
+      - NODE_ENV=production
+      - SIMPLE_LOGGER=${SIMPLE_LOGGER:-true}
+    ports:
+      - ${PORT:-8080}:${PORT:-8080}

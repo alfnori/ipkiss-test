@@ -3,8 +3,8 @@ import logger from '@common/utils/logger';
 
 import buildServer from './fastify';
 
-const server = buildServer();
 const env = loadEnvironment();
+const server = buildServer();
 
 server.listen({ port: env.PORT, host: '0.0.0.0' }, (err) => {
   if (err) {
