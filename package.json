@@ -2,7 +2,7 @@
   "name": "ipkiss-test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/index.js",
   "types": "index.d.ts",
   "scripts": {
     "mocha": "mocha --check-leaks -r tsconfig-paths/register -r ts-node/register",
@@ -12,9 +12,9 @@
     "test:coverage": "NODE_ENV=test nyc --reporter=html mocha --check-coverage=true --check-leaks -r tsconfig-paths/register -r ts-node/register \"src/__tests__/**/*.spec.ts\"",
     "build": "tsc && tsc-alias",
     "start": "node dist/server/index.js",
-    "start:serverless": "SERVERLESS=true node dist/server/serverless.js",
+    "start:serverless": "node dist/serverless/index.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --poll --respawn --inspect --transpile-only --ignore-watch node_modules src/server/index.ts",
-    "dev:serverless": "SERVERLESS=true ts-node-dev -r tsconfig-paths/register --poll --respawn --inspect --transpile-only --ignore-watch node_modules src/server/serverless.ts",
+    "dev:serverless": "ts-node-dev -r tsconfig-paths/register --poll --respawn --inspect --transpile-only --ignore-watch node_modules src/serverless/index.ts",
     "lint": "eslint . --ext .ts && prettier --check \"./src/**/*.ts\"",
     "lint:fix": "eslint . --ext .ts --fix && prettier --write \"./src/**/*.ts\"",
     "prettier": "npx prettier . --fix",
@@ -65,11 +65,13 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@tsconfig/node-lts": "^22.0.1",
     "@tsconfig/node18": "^18.2.1",
+    "@tsconfig/node22": "^22.0.0",
     "@tsconfig/recommended": "^1.0.2",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
-    "@types/node": "^20.5.7",
+    "@types/node": "^20.17.19",
     "@types/sinon": "^10.0.16",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.2",
@@ -93,6 +95,6 @@
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.7",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.7.3"
   }
 }
