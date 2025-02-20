@@ -12,6 +12,7 @@ import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 import { ClientRequest, IncomingMessage } from 'http';
 
 const traceURL = process.env.TRACE_URL || 'http://0.0.0.0:4318/v1/traces';
+const serverless = process.env.SERVERLESS === 'true';
 
 const IGNORED_PATHS = ['/', '/api', '/health'];
 
@@ -19,11 +20,6 @@ const IGNORED_PATHS = ['/', '/api', '/health'];
 const sdk = new NodeSDK({
   traceExporter: new OTLPTraceExporter({
     url: traceURL,
-  }),
-  metricReader: new PeriodicExportingMetricReader({
-    exporter: new OTLPMetricExporter({
-      url: traceURL.replace('traces', 'metrics'),
-    }),
   }),
   instrumentations: [
     getNodeAutoInstrumentations({
@@ -51,6 +47,15 @@ const sdk = new NodeSDK({
   resource: new Resource({
     [ATTR_SERVICE_NAME]: 'ipkisstest-service',
   }),
+  ...(!serverless
+    ? {
+        metricReader: new PeriodicExportingMetricReader({
+          exporter: new OTLPMetricExporter({
+            url: traceURL.replace('traces', 'metrics'),
+          }),
+        }),
+      }
+    : {}),
 });
 
 // Gracefully shut down the SDK on process exit
