@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "devCommand": "npm run dev:serverless",
   "builds": [
     {
-      "src": "dist/server/serverless.js",
-      "use": "@vercel/node"
+      "src": "dist/serverless/index.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["dist/**"] }
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "dist/server/serverless.js"
+      "src": "/(.*)",
+      "dest": "dist/serverless/index.js"
     }
   ]
 }

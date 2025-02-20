@@ -9,8 +9,6 @@ const setupErrorHandler = (server: FastifyInstance): void => {
     const tracer = trace.getTracer('fastify-error-handler');
     const span = tracer.startSpan('errorHandler', undefined, context.active());
 
-    console.log(tracer, span);
-
     try {
       if (err instanceof AppError) {
         const responseError = (err as AppError).toResponseError();
