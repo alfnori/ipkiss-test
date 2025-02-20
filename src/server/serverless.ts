@@ -3,8 +3,9 @@ import logger from '@common/utils/logger';
 
 import { type FastifyReply, type FastifyRequest } from 'fastify';
 import buildServer from './fastify';
-import otelSDK from './tracing';
+import tracing from './tracing';
 
+const otelSDK = tracing(true);
 otelSDK.start();
 
 export default async (req: FastifyRequest, res: FastifyReply) => {

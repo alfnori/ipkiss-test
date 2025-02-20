@@ -1,4 +1,4 @@
-import otelSDK from './tracing';
+import tracing from './tracing';
 
 import loadEnvironment from '@config/environment';
 import logger from '@common/utils/logger';
@@ -6,6 +6,7 @@ import logger from '@common/utils/logger';
 import buildServer from './fastify';
 
 async function bootstrap() {
+  const otelSDK = tracing();
   await otelSDK.start();
 
   const env = loadEnvironment();
