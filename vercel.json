@@ -1,4 +1,16 @@
 {
   "version": 2,
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+  "devCommand": "npm run dev:serverless",
+  "builds": [
+    {
+      "src": "dist/server/serverless.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "dist/server/serverless.js"
+    }
+  ]
 }
