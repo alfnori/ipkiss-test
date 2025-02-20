@@ -45,6 +45,7 @@ Additional variables:
 
 SIMPLE_LOGGER (default: false) - Toggle simple logging format
 COMPOSE_PROJECT_NAME - Name for the docker compose stack
+NGROK_AUTHTOKEN - Ngrok account token for auto expose API
 
 ---
 
@@ -140,10 +141,15 @@ The project includes a Docker Compose configuration for development with the fol
    - UI available at `http://localhost:16686`
    - Supports multiple protocols (gRPC, HTTP, etc.)
 
+4. **Ngrok (Expose)**
+   - Reverse proxy tunneling
+   - UI available at `http://localhost:4040`
+   - Auto expose API port to internet via tunnel URL
+
 To start the development environment:
 
 ```bash
-docker-compose up
+docker compose -f docker-compose.dev.yml up -d
 ```
 
 ### Available Ports
@@ -157,6 +163,7 @@ docker-compose up
   - 14250 - gRPC
   - 14268, 14269 - HTTP
   - 9411 - Zipkin collector
+- Ngrok: 4040
 
 ### Production Deployment
 

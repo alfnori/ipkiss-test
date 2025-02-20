@@ -9,5 +9,6 @@ services:
       - PORT=${PORT:-8080}
       - NODE_ENV=production
       - SIMPLE_LOGGER=${SIMPLE_LOGGER:-true}
+      - TRACE_URL=${TRACE_URL:-http://0.0.0.0:4318/v1/traces}
     ports:
       - ${PORT:-8080}:${PORT:-8080}

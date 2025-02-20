@@ -9,6 +9,7 @@ services:
       - PORT=${PORT:-3000}
       - NODE_ENV=development
       - SIMPLE_LOGGER=${SIMPLE_LOGGER:-false}
+      - TRACE_URL=http://tracing:4318/v1/traces
     ports:
       - ${PORT:-3000}:${PORT:-3000}
     depends_on:
@@ -39,6 +40,15 @@ services:
       - 14268:14268
       - 14269:14269
       - 9411:9411
+
+  ngrok:
+    container_name: ipkisstest-ngrok-dev
+    image: wernight/ngrok
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+      - NGROK_PORT=ipkisstest-api-dev:${PORT:-3000}
+    ports:
+      - 4040:4040
 
 volumes:
   jaeger-data-dev:
