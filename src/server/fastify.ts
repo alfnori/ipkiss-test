@@ -45,7 +45,7 @@ const configureServer = (server: FastifyInstance) => {
   });
 
   server.addHook('onSend', (request, response, _payload, done) => {
-    response.header('x-request-id', genReqId(request));
+    response.header('x-request-id', request.id || genReqId(request));
     done();
   });
 };

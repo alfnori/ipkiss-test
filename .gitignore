@@ -133,3 +133,4 @@ dist
 .history
 .vscode/launch.json
 !testCoverage/*.log
+.vercel
